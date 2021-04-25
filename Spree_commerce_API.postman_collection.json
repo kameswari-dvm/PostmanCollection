@@ -1,0 +1,675 @@
+{
+	"info": {
+		"_postman_id": "e114346a-c493-43dd-882e-66e71fcb6643",
+		"name": "Spree commerce API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "StoreFront Create Account",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"kameswari@qapitol.com\",\r\n    \"password\": \"qapitolqa\",\r\n    \"password_confirmation\": \"qapitolqa\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json()\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"refresh_token1\", response.refresh_token);\r",
+							"pm.globals.set(\"access_token1\", response.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"grant_type\": \"password\",\r\n  \"username\": \"kameswari@qapitol.com\",\r\n  \"password\": \"qapitolqa\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/spree_oauth/token",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"spree_oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"grant_type\": \"refresh_token\",\r\n  \"refresh_token\": \"{{refresh_token1}}\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/spree_oauth/token",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"spree_oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Store front Account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get account addresses",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account/addresses",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Addressess",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{base-uri}}/api/v2/storefront/account/addresses",
+					"protocol": "https",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Address",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n  \"firstname\": \"Kameswari\",\r\n  \"lastname\": \"Dhulipala\",\r\n  \"address1\": \"Bayappanahalli\",\r\n  \"address2\": \"12th Floor\",\r\n  \"city\": \"vishakapatnam\",\r\n  \"phone\": \"8897338164\",\r\n  \"zipcode\": \"530009\",\r\n  \"state_name\": \"AP\",\r\n  \"country_iso\": \"IN\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account/addresses/4995",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses",
+						"4995"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update address",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n  \"firstname\": \"Kameswari\",\r\n  \"lastname\": \"Dhulipala\",\r\n  \"address1\": \"Bayappanahalli\",\r\n  \"address2\": \"10th Floor\",\r\n  \"city\": \"vishakapatnam\",\r\n  \"phone\": \"8897338163\",\r\n  \"zipcode\": \"530009\",\r\n  \"state_name\": \"AP\",\r\n  \"country_iso\": \"IN\"\r\n   }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account/addresses",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Countries",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/countries",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cart",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/cart",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/products",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get A Product using id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/products/2",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"products",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/cart",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"cart"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add item to the cart",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"variant_id\": \"127\",\r\n  \"quantity\": 50\r\n}"
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/cart/add_item",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"cart",
+						"add_item"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Democart store account creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"kameswari4321@qapitol.com\",\r\n    \"password\": \"qapitol4321\",\r\n    \"password_confirmation\": \"qapitol4321\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://democart.qapitol.com/api/v2/storefront/account",
+					"protocol": "http",
+					"host": [
+						"democart",
+						"qapitol",
+						"com"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json()\r",
+							"pm.globals.set(\"number\", response.data[0].attributes.number);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://democart.qapitol.com/api/v2/storefront/account/orders",
+					"protocol": "http",
+					"host": [
+						"democart",
+						"qapitol",
+						"com"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update account with new details",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"john12@snow.org\",\r\n    \"password\": \"spree123\",\r\n    \"password_confirmation\": \"spree123\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/account",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
