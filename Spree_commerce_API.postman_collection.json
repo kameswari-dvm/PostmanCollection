@@ -108,6 +108,8 @@
 							"pm.test(\"verify status code\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
+							"let response = pm.response.json()\r",
+							"pm.globals.set(\"access_token1\", response.access_token);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -648,7 +650,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"john12@snow.org\",\r\n    \"password\": \"spree123\",\r\n    \"password_confirmation\": \"spree123\"\r\n  }\r\n}",
+					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"kameswari@qapitol.com\",\r\n    \"password\": \"qapitolqa\",\r\n    \"password_confirmation\": \"qapitolqa\"\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -666,6 +668,192 @@
 						"v2",
 						"storefront",
 						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/order_status/{{number}}",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"order_status",
+						"{{number}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update checkout",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"order\": {\r\n    \"email\": \"kameswari@qapitol.com\",\r\n    \"bill_address_attributes\": {\r\n      \"firstname\": \"kameswari\",\r\n      \"lastname\": \"dhulipala\",\r\n      \"address1\": \"7735 Old Georgetown Road\",\r\n      \"city\": \"Bethesda\",\r\n      \"phone\": \"3014445002\",\r\n      \"zipcode\": \"20814\",\r\n      \"state_name\": \"MD\",\r\n      \"country_iso\": \"US\"\r\n    },\r\n    \"ship_address_attributes\": {\r\n      \"firstname\": \"kameswari\",\r\n      \"lastname\": \"dhulipala\",\r\n      \"address1\": \"7735 Old Georgetown Road\",\r\n      \"city\": \"Bethesda\",\r\n      \"phone\": \"3014445002\",\r\n      \"zipcode\": \"20814\",\r\n      \"state_name\": \"MD\",\r\n      \"country_iso\": \"US\"\r\n    }\r\n }\r\n}"
+				},
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/checkout",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add store credits",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "\n",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/checkout/add_store_credit",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"checkout",
+						"add_store_credit"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "200",
+							"disabled": true
+						},
+						{
+							"key": "fields[cart]",
+							"value": "total",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "currency",
+							"disabled": true
+						},
+						{
+							"key": "include",
+							"value": "shipping_address",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get shipping_rates",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/checkout/shipping_rates",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"checkout",
+						"shipping_rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkout advance",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{base-uri}}/api/v2/storefront/checkout/advance",
+					"protocol": "http",
+					"host": [
+						"{{base-uri}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"checkout",
+						"advance"
 					]
 				}
 			},
